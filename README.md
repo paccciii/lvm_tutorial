@@ -10,22 +10,29 @@ This tutorial walks through a complete LVM demonstration using a KVM virtual mac
 
 ---
 
-## 🖥️ Step 1: Create VM from Master Copy
+# First thing first, we will clone any Linux VM. In my case, I am going with Ubuntu 24.04 CLI
+
+Clone the master VM image:
 
 ```bash
-virsh list --all
-virsh define /mnt/qa220250516104235_prashant_test_July_03/LVM-Tutorial-VM.xml
+virt-clone --original <source-vm> --name LVM-Tutorial-VM \
+  --file <destination-path>/LVM-Tutorial-VM.qcow2
+```
+
+##  Step 1: Create VM from Master Copy
+
+```bash
 virsh start LVM-Tutorial-VM
 ```
 
-## 📦 Step 2: Create and Attach First Additional Disk
+##  Step 2: Create and Attach First Additional Disk
 
 ```bash
 qemu-img create -f qcow2 -o preallocation=metadata \
-  /mnt/qa220250516104235_prashant_test_July_03/LVM-Tutorial-VM_disk2.qcow2 20G
+  /<path-to-your-disk>/LVM-Tutorial-VM_disk2.qcow2 20G
 
 virsh attach-disk --domain LVM-Tutorial-VM \
-  --source /mnt/qa220250516104235_prashant_test_July_03/LVM-Tutorial-VM_disk2.qcow2 \
+  --source /<path-to-your-disk>/LVM-Tutorial-VM_disk2.qcow2 \
   --target vdb --persistent --targetbus virtio
 ```
 
@@ -41,6 +48,8 @@ virsh console LVM-Tutorial-VM
 sudo pvcreate /dev/vdb
 sudo vgcreate vg_data /dev/vdb
 ```
+![Alt text](/images/vg_pv_creation.png)
+
 
 ## 🧱 Step 4: Create Logical Volume and Format
 
