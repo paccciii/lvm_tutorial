@@ -96,7 +96,6 @@ virsh attach-disk --domain LVM-Tutorial-VM \
   --source /mnt/qa220250516104235_prashant_test_July_03/LVM-Tutorial-VM_disk3.qcow2 \
   --target vdc --persistent --targetbus virtio
 ```
-![Alt text](/images/kvm_disk-addtion_ss.png)
 
 Inside VM:
 
